@@ -8,7 +8,7 @@ import style from './ContactList.module.css';
 const ContactList = () => {
   const filter = useSelector(getFilter);
 
-  const { data: contacts, isFetching, isError } = useGetContactsQuery();
+  const { data: contacts,  isError } = useGetContactsQuery();
 
   const filteredContacts =
     contacts &&
