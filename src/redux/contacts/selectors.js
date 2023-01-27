@@ -1,1 +1,1 @@
-export const getFilter = state => state.contactsReducer.filter;
+export const getFilter = state => state.reducer.filter;

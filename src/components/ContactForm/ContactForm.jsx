@@ -69,7 +69,7 @@ const ContactForm = () => {
         id={numberInputId}
         className={style.FormInput__input}
       />
-      <button type="submit" className={style.FormButton}>
+      <button type="submit" className={style.formBtn}>
         Add Contact
       </button>
     </form>
