@@ -1,0 +1,12 @@
+.header {
+    margin: 0 auto;
+    background-color:rgb(17, 72, 121);
+    padding: 2vh 1vw;
+}
+
+.nav {
+    display: flex;
+    max-width: 540px;
+    margin: 0 auto;
+    justify-content: space-between;
+}

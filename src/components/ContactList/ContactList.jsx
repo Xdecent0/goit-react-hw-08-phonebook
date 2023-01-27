@@ -1,33 +1,47 @@
 import { useSelector } from 'react-redux';
+import { getFilter } from '../../redux/contacts/selectors';
 import { useGetContactsQuery } from '../../service/phoneApi';
 import ContactListItem from '../ContactListItem/ContactListItem';
-import { getFilter } from 'redux/contacts/selectors';
+import PropTypes from 'prop-types';
+import style from './ContactList.module.css';
 
-import s from './ContactList.module.css';
-
-export default function ContactList() {
-  const { data: contacts, isLoading, isError } = useGetContactsQuery();
+const ContactList = () => {
   const filter = useSelector(getFilter);
-  const normalizedData = filter && filter.toLowerCase();
-  const normalizedContacts =
-    contacts &&
-    contacts.filter(contact =>
-      contact.name.toLowerCase().includes(normalizedData)
-    );
 
-  const isContacts = normalizedContacts && normalizedContacts.length > 0;
+  const { data: contacts, isFetching, isError } = useGetContactsQuery();
+
+  const filteredContacts =
+    contacts &&
+    contacts.filter(contact => contact.name.toLowerCase().includes(filter));
+
+  const isContactsEmpty = filteredContacts && filteredContacts.length > 0;
 
   return (
     <>
-      {isLoading && <p>Loading ...</p>}
-      {isError && <p>An error has occurred!</p>}
-      {isContacts && (
-        <ul className={s.contactsList}>
-          {normalizedContacts.map(({ id, name, phone: number }) => (
-            <ContactListItem name={name} number={number} key={id} id={id} />
+      {isError && console.log(isError)}
+      {isContactsEmpty ? (
+        <ul className={style.ContactList__list}>
+          {filteredContacts.map(({ id, name, number }) => (
+            <ContactListItem key={id} id={id} name={name} number={number} />
           ))}
+        </ul>
+      ) : (
+        <ul className={style.ContactList__list}>
+          <p>No contacts found...</p>
         </ul>
       )}
     </>
   );
-}
+};
+
+ContactList.propTypes = {
+  filteredContacts: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      number: PropTypes.string.isRequired,
+    })
+  ),
+};
+
+export default ContactList;
